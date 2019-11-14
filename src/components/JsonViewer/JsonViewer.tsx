@@ -7,6 +7,7 @@ import { PrismDiv } from '../../common-elements/PrismDiv';
 import { jsonToHTML } from '../../utils/jsonToHtml';
 import { OptionsContext } from '../OptionsProvider';
 import { jsonStyles } from './style';
+import * as yaml from 'js-yaml';
 
 export interface JsonProps {
   data: any;
@@ -23,8 +24,12 @@ class Json extends React.PureComponent<JsonProps> {
   node: HTMLDivElement;
 
   render() {
-    return <CopyButtonWrapper data={this.props.data}>{this.renderInner}</CopyButtonWrapper>;
+    return <CopyButtonWrapper data={this.yamlData()}>{this.renderInner}</CopyButtonWrapper>;
   }
+
+  yamlData = () => {
+    return yaml.dump(JSON.parse(JSON.stringify(this.props.data)));
+  };
 
   renderInner = ({ renderCopyButton }) => (
     <JsonViewerWrap>
